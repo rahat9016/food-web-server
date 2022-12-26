@@ -13,10 +13,7 @@ const menuSchema = new mongoose.Schema(
       type: String,
       unique: true,
     },
-    menuImage: {
-      type: String,
-      required: true,
-    },
+    menuImage: {},
     createBy: {
       type: mongoose.Types.ObjectId,
       ref: "User",

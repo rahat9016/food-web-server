@@ -1,16 +1,21 @@
 const Menu = require("../Model/MenuCategory");
 const slugify = require("slugify");
 const shortid = require("shortid");
+const cloudinary = require("cloudinary");
+const { uploadSingleImage } = require("../Common/CommonMiddleware");
+
 exports.menuCreate = async (req, res) => {
-  const { title, menuImage } = req.body;
+  const { title } = req.body;
   await Menu.findOne({ title }).exec(async (error, menu) => {
     if (error) res.status(400).json({ error });
     else if (menu) res.status(400).json({ message: "Already Created" });
     else if (!menu) {
+      const imageUploader = await uploadSingleImage(req, res);
+
       const _newMenu = await new Menu({
         title,
         slug: `${slugify(title)}-${shortid.generate()}`,
-        menuImage,
+        menuImage: imageUploader,
       });
       _newMenu.save((error, menu) => {
         if (error)
@@ -58,6 +63,7 @@ exports.deleteMenu = async (req, res) => {
         if (error)
           res.status(400).json({ error: "Something went wrong!", error });
         if (menu) {
+          cloudinary.uploader.destroy(menu.menuImage.id);
           res.status(200).json({ message: "Deleted Successful!" });
         }
       });
