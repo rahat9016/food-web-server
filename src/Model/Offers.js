@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const foodSchema = new mongoose.Schema(
+const offersSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -13,33 +13,12 @@ const foodSchema = new mongoose.Schema(
     type: {
       type: String,
     },
-    foodImg: [
-      {
-        url: {
-          type: String,
-        },
-        id: {
-          type: String,
-        },
-      },
-    ],
+    offerImg: {},
+
     price: {
       type: Number,
       required: true,
     },
-    quantity: {
-      type: Number,
-      required: true,
-    },
-    description: {
-      type: String,
-      required: true,
-    },
-    sold: {
-      type: Number,
-      default: 0,
-    },
-
     menuId: {
       type: mongoose.Types.ObjectId,
       ref: "Menu",
@@ -67,4 +46,4 @@ const foodSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Food", foodSchema);
+module.exports = mongoose.model("Offer", offersSchema);

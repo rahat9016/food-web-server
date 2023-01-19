@@ -29,7 +29,8 @@ exports.menuCreate = async (req, res) => {
 };
 exports.getMenu = async (req, res) => {
   await Menu.find({}).exec((error, menu) => {
-    if (error) res.status(400).json({ error: "Something went wrong!", error });
+    if (error)
+      res.status(400).json({ message: "Something went wrong!", error });
     if (menu) {
       res.status(200).json({ menu });
     }

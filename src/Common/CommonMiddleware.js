@@ -6,6 +6,7 @@ exports.uploadSingleImage = async (req, res) => {
   let uploadFile;
   if (req.method === "POST") {
     let { path } = req.file;
+
     uploadFile = await uploader(path);
     fs.unlinkSync(path);
   }
@@ -24,6 +25,5 @@ exports.uploadMultipleImages = async (req, res) => {
       fs.unlinkSync(path);
     }
   }
-
   return urls;
 };

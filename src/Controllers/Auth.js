@@ -3,35 +3,17 @@ const shortid = require("shortid");
 const bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
 exports.signup = async (req, res) => {
-  const {
-    email,
-    firstName,
-    lastName,
-    password,
-    mobile,
-    profilePicture,
-    address,
-    city,
-    zone,
-  } = req.body;
-  await User.findOne({ email: email }).exec(async (error, user) => {
-    if (error) res.status(400).json({ error });
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email: email });
     if (user) {
-      res.status(400).json("User already created!");
-    } else if (!user) {
+      return res.status(400).json({ message: "Already registered!" });
+    } else {
       const hash_password = await bcrypt.hash(password, 10);
       const _newUser = new User({
-        email,
-        firstName,
-        lastName,
-        userName: firstName + shortid.generate(),
+        ...req.body,
         password: hash_password,
-        mobile,
-        profilePicture,
-        address,
-        city,
-        zone,
-        role: "admin",
+        role: "user",
       });
       _newUser.save((error, user) => {
         if (error)
@@ -41,7 +23,9 @@ exports.signup = async (req, res) => {
         }
       });
     }
-  });
+  } catch (error) {
+    res.status(400).json({ message: "something went wrong!", error });
+  }
 };
 exports.signing = async (req, res) => {
   const { email, password } = req.body;

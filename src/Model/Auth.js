@@ -16,12 +16,6 @@ const userSchema = new mongoose.Schema(
       max: 32,
       trim: true,
     },
-    userName: {
-      type: String,
-      required: true,
-      lowercase: true,
-      unique: true,
-    },
     email: {
       type: String,
       required: true,
@@ -30,7 +24,6 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-      min: 6,
     },
     role: {
       type: String,
@@ -40,7 +33,6 @@ const userSchema = new mongoose.Schema(
     },
     mobile: {
       type: String,
-      unique: true,
     },
     profilePicture: {
       type: String,
