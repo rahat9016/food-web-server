@@ -3,6 +3,7 @@ const Food = require("../Model/Food");
 
 exports.foodCreate = async (req, res) => {
   const { name, price, quantity, description, menuId, shipping } = req.body;
+  console.log(req.body);
   try {
     const imageUploader = await uploadMultipleImages(req, res);
     const _food = await new Food({
@@ -16,6 +17,7 @@ exports.foodCreate = async (req, res) => {
       foodImg: imageUploader,
     });
     _food.save((error, food) => {
+      console.log({ error, food });
       if (error) {
         res.status(400).json({ message: "Already created!", error });
       } else if (food) {
