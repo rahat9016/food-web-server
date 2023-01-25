@@ -43,6 +43,9 @@ app.use("/", FoodRouter);
 app.use("/", OffersRouter);
 app.use("/", OrderRouter);
 app.use("/", StripeRouter);
+app.use("/", (req, res) => {
+  res.status(200).json({ message: "Welcome to web food server" });
+});
 //404 Handler
 app.use((req, res, next) => {
   next("Request URL not found!");
